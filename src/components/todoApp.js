@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Todo from "./todo";
+
 
 export default function TodoApp() {
 
@@ -12,11 +14,11 @@ export default function TodoApp() {
 
     function handleChange(e) {
         const value = e.target.value;
-        
+
         setTilte(value);
     }
 
-    function handleSubmit (e) {
+    function handleSubmit(e) {
         e.preventDefault();
 
         const newToDo = {
@@ -25,20 +27,44 @@ export default function TodoApp() {
             completed: false
         }
 
-        const toDoTemp = [ ... toDos];
+        const toDoTemp = [...toDos];
         toDoTemp.unshift(newToDo);
 
         setToDos(toDoTemp);
+
+        setTilte("");
+    }
+
+    function handleUpdate (id, value) {
+        const temp = [...toDos];
+        const item = temp.find(item => item.id === id);
+        item.title = value;
+        setToDos(temp);
+    }
+
+    function handleDelete (id) {
+        const temp = toDos.filter(item => item.id !== id);
+
+        setToDos(temp);
+
     }
 
     return <div className="todoContainer">
-        <form className="todoCreateForm"onSubmit={ handleSubmit }>
-            <input onChange={ handleChange } className="todoInput" value={ title }></input>
-            <input onClick={ handleSubmit }
+        <form className="todoCreateForm" onSubmit={handleSubmit}>
+            <input onChange={handleChange} className="todoInput" value={title}></input>
+            <input onClick={handleSubmit}
                 type="submit"
                 value="Create to do"
                 className="buttonCreate">
             </input>
         </form>
+
+        <div className="toDosContainer">
+            {
+                toDos.map(item => (
+                    <Todo key={item.id} item={item} onUpdate={handleUpdate} onDelete={handleDelete}></Todo>
+                ))
+            }
+        </div>
     </div>
 }
