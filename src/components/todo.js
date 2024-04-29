@@ -1,4 +1,5 @@
 import { useState } from "react"
+import './todoApp.css';
 
 export default function Todo({ item, onUpdate, onDelete }) {
 
@@ -34,8 +35,9 @@ export default function Todo({ item, onUpdate, onDelete }) {
     function TodoElement() {
         return (
             <div className="todoInfo">
-                {item.title} <button onClick={() => setIsEdit(true)}>Editar</button>
-                <button onClick={(e) => onDelete(item.id)}>Eliminar</button>
+                <span className="todoTitle">{item.title} </span>
+                <button className="button" onClick={() => setIsEdit(true)}>Edit</button>
+                <button className="buttonDelete" onClick={(e) => onDelete(item.id)}>Delete</button>
             </div>
         );
     }

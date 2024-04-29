@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Todo from "./todo";
+import './todoApp.css';
 
 
 export default function TodoApp() {
@@ -21,6 +22,11 @@ export default function TodoApp() {
     function handleSubmit(e) {
         e.preventDefault();
 
+        if (title.trim() === "") {
+            alert("Please enter a title for your to-do item.");
+            return;
+        }
+
         const newToDo = {
             id: crypto.randomUUID(),
             title: title,
@@ -35,14 +41,14 @@ export default function TodoApp() {
         setTilte("");
     }
 
-    function handleUpdate (id, value) {
+    function handleUpdate(id, value) {
         const temp = [...toDos];
         const item = temp.find(item => item.id === id);
         item.title = value;
         setToDos(temp);
     }
 
-    function handleDelete (id) {
+    function handleDelete(id) {
         const temp = toDos.filter(item => item.id !== id);
 
         setToDos(temp);
@@ -51,10 +57,13 @@ export default function TodoApp() {
 
     return <div className="todoContainer">
         <form className="todoCreateForm" onSubmit={handleSubmit}>
-            <input onChange={handleChange} className="todoInput" value={title}></input>
+            <input onChange={handleChange}
+                className="todoInput"
+                value={title}>
+            </input>
             <input onClick={handleSubmit}
                 type="submit"
-                value="Create to do"
+                value="Create task"
                 className="buttonCreate">
             </input>
         </form>
@@ -62,7 +71,11 @@ export default function TodoApp() {
         <div className="toDosContainer">
             {
                 toDos.map(item => (
-                    <Todo key={item.id} item={item} onUpdate={handleUpdate} onDelete={handleDelete}></Todo>
+                    <Todo key={item.id}
+                        item={item}
+                        onUpdate={handleUpdate}
+                        onDelete={handleDelete}>
+                    </Todo>
                 ))
             }
         </div>
